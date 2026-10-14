@@ -1,10 +1,8 @@
-# Análise Exploratória: `dados.parquet`
+# Análise Exploratória:
 
 **Objetivo:** entender a base antes de ajustar um modelo supervisionado com a variável resposta **`ALVO`** (binária).
-
-
 ---
-
+da
 ## Resumo
 
 1. **`Y` vaza o alvo e precisa sair do modelo.** `ALVO = 1` se e somente se `Y ≥ 743` (100% de concordância). 743 é o ponto de corte da escala de alfabetização do Saeb/Compromisso Criança Alfabetizada. Logo, `Y` parece ser a proficiência média de 2024 e `ALVO` indica se o município atingiu o patamar de "alfabetizado".
@@ -27,7 +25,7 @@
 | Linhas duplicadas / `id_municipio` duplicado | 0 / 0 |
 | Nomes de município repetidos | 263 (homônimos em UFs diferentes; use `id_municipio` como chave) |
 | UFs presentes | 25 (ausentes: **DF** e **RR**) |
-| Encoding | correto (UTF-8). Caracteres como `Adel�ndia` são só um problema de exibição do terminal |
+| Encoding | correto (UTF-8). Caracteres como `Adel ndia` são só um problema de exibição do terminal |
 
 ### Dicionário inferido
 
@@ -53,7 +51,7 @@
 
 ## 2. Variável resposta e vazamento
 
-![ALVO e Y](images/alvo_e_Y.png)
+![ALVO e Y](../images/alvo_e_Y.png)
 
 | ALVO | n | % | Y mín | Y máx | Y médio |
 |---|---|---|---|---|---|
@@ -68,10 +66,10 @@ As classes não se sobrepõem em `Y`, então `ALVO` é uma dicotomização de `Y
 
 | | 2023 < 743 | 2023 ≥ 743 |
 |---|---|---|
-| **ALVO = 0** | 1.347 | 719 |
-| **ALVO = 1** | 482 | 2.900 |
+| **ALVO = 0** | 1.347 | 482 |
+| **ALVO = 1** | 719 | 2.900 |
 
-  Ou seja, 719 municípios estavam acima do corte em 2023 e caíram, e 482 estavam abaixo e subiram. O modelo precisa explicar essa **mudança entre anos**, porque é aí que está o ganho sobre a regra simples.
+  Ou seja, 482 municípios estavam acima do corte em 2023 e caíram, e 719 estavam abaixo e subiram. O modelo precisa explicar essa **mudança entre anos**, porque é aí que está o ganho sobre a regra simples.
 
 ---
 
@@ -95,7 +93,7 @@ As classes não se sobrepõem em `Y`, então `ALVO` é uma dicotomização de `Y
 | log_pib | 19,79 | 1,41 | 17,05 | 18,74 | 19,56 | 20,57 | 27,70 | 0,95 |
 | log_area_km2 | 6,21 | 1,27 | 1,52 | 5,33 | 6,04 | 6,94 | 11,98 | 0,70 |
 
-![Histogramas](images/histogramas.png)
+![Histogramas](../images/histogramas.png)
 
 **O que se vê nos histogramas:**
 - `pop`, `pib` e `area_km2` têm caudas extremas (São Paulo, Rio etc.). Os `log_*` deixam as distribuições quase simétricas, então **prefira as versões log**.
@@ -118,9 +116,9 @@ As classes não se sobrepõem em `Y`, então `ALVO` é uma dicotomização de `Y
 
 Pearson mede relação **linear** e Spearman mede relação **monotônica**, por postos. Spearman é mais robusto às caudas de `pop` e `pib`.
 
-![Correlação de Spearman](images/corr_spearman.png)
+![Correlação de Spearman](../images/corr_spearman.png)
 
-![Correlação de Pearson](images/corr_pearson.png)
+![Correlação de Pearson](../images/corr_pearson.png)
 
 ### Correlação com `ALVO`
 
@@ -176,7 +174,7 @@ Num modelo linear ou logístico, **mantenha só uma variável de cada bloco**, o
 
 ### Poder discriminante univariado (AUC) e teste de Mann-Whitney
 
-![AUC univariada](images/auc_univariada.png)
+![AUC univariada](../images/auc_univariada.png)
 
 | Variável | mediana ALVO=0 | mediana ALVO=1 | AUC | p (Mann-Whitney) |
 |---|---|---|---|---|
@@ -195,13 +193,13 @@ Num modelo linear ou logístico, **mantenha só uma variável de cada bloco**, o
 
 (−) = relação inversa: valores maiores favorecem `ALVO = 0`.
 
-![Densidades por classe](images/densidades_por_alvo.png)
+![Densidades por classe](../images/densidades_por_alvo.png)
 
-![Boxplots por classe](images/boxplots_por_alvo.png)
+![Boxplots por classe](../images/boxplots_por_alvo.png)
 
 ### Relações bivariadas
 
-![Dispersões](images/dispersoes.png)
+![Dispersões](../images/dispersoes.png)
 
 - **Esquerda:** `media_portugues_2023` contra `Y` (ρ = 0,71 de Pearson). As linhas tracejadas marcam 743 nos dois eixos. Os quadrantes fora da diagonal são os municípios que "mudaram de lado" entre 2023 e 2024.
 - **Centro:** `taxa_alfabetizacao_2023` e `media_portugues_2023` estão quase sobrepostas (ρ = 0,96).
@@ -211,7 +209,7 @@ Num modelo linear ou logístico, **mantenha só uma variável de cada bloco**, o
 
 ## 6. Variáveis categóricas e discretas
 
-![ALVO por região e UF](images/alvo_regiao_uf.png)
+![ALVO por região e UF](../images/alvo_regiao_uf.png)
 
 | Variável | χ² | gl | p | V de Cramér |
 |---|---|---|---|---|
@@ -224,7 +222,7 @@ Num modelo linear ou logístico, **mantenha só uma variável de cada bloco**, o
 
 **Por UF**, os extremos ficam **dentro do Nordeste**: **CE 100%** (184/184), PE 75%, PI 72%, enquanto **BA 6,4%**, SE 8,0% e RN 21%. Portanto a **UF captura muito mais que a região**. Isso provavelmente reflete políticas estaduais de alfabetização, como o PAIC no Ceará, e possíveis diferenças na aplicação ou calibração das avaliações estaduais. UFs pequenas têm estimativas instáveis: AP n = 16, AC n = 22.
 
-![ALVO por nível e população](images/alvo_nivel_pop.png)
+![ALVO por nível e população](../images/alvo_nivel_pop.png)
 
 - **`nivel_2023`:** o % de ALVO = 1 sobe de forma monotônica a partir do nível 3: 14% → 56% → 88% → 94% → 96% → 100%. Os níveis 1–2 (n = 53) têm poucas observações. O salto entre os níveis 4 e 5 coincide com a vizinhança do corte de 743/750.
 - **População:** municípios menores atingem o alvo com mais frequência, de 76% no decil 1 a 55% no decil 10, em queda quase monotônica.
@@ -232,26 +230,3 @@ Num modelo linear ou logístico, **mantenha só uma variável de cada bloco**, o
 - **`atingiu_meta_2024`:** 91,3% de ALVO = 1 entre os que atingiram a meta, contra 61,0% entre os que não atingiram.
 
 ---
-
-## 7. Recomendações para a modelagem
-
-**Remover:**
-- `Y`, por vazamento. Pode virar alvo de um modelo de regressão alternativo.
-- `id_municipio`, `nome_municipio` (identificadores) e `meta_alfabetizacao_2030` (constante).
-- `pop`, `pib` e `area_km2` brutos, usando as versões `log_*`.
-- `diff_meta_2024` **ou** `meta_alfabetizacao_2024`, para não manter a identidade exata com `taxa`. `atingiu_meta_2024` é redundante com `diff`.
-
-**Features:**
-- Use `media_portugues_2023` como âncora. Opcionalmente inclua a distância ao corte, `media_portugues_2023 − 743`.
-- Use um representante do bloco Saeb/Ideb (por exemplo `ideb_2023`) ou o 1º componente principal do bloco.
-- Crie `pib_per_capita` (em log).
-- Para `sigla_uf`, use one-hot ou target encoding **dentro da validação cruzada** para não vazar informação. CE tem 100% de ALVO = 1, o que pode gerar separação perfeita na logística (use regularização). Avalie se `nome_regiao` ainda acrescenta algo depois de incluir a UF.
-- `nivel_2023` é uma discretização de `media_portugues_2023`: escolha uma das duas.
-
-**Modelos e validação:**
-- **Baselines a superar:** acurácia de 66,4% (sempre 1) e 78,0% (regra `media_portugues_2023 ≥ 743`). A AUC univariada de `media_portugues_2023` é 0,84.
-- **Logística regularizada (L1/L2):** interpretável, mas exige a poda dos blocos colineares.
-- **Árvores/boosting (Random Forest, XGBoost, LightGBM):** robustos à colinearidade e às caudas, e capturam a interação entre UF e desempenho.
-- Use validação cruzada **estratificada** pelo ALVO. Avalie também a **validação agrupada por UF**, se a meta for generalizar para estados não vistos (DF e RR estão ausentes).
-- **Métricas:** ROC-AUC, PR-AUC e F1/recall da classe 0 (a minoritária e provavelmente a de maior interesse), além da calibração. Com 34% na classe minoritária, `class_weight` ou ajuste de limiar costuma bastar, sem necessidade de reamostragem.
-- **Outliers de Ideb/Saeb** (Ideb ≥ 9): verifique se são legítimos. Árvores são pouco sensíveis a eles, mas a logística é.
