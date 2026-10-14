@@ -1,7 +1,7 @@
 # Análise Exploratória: `dados.parquet`
 
 **Objetivo:** entender a base antes de ajustar um modelo supervisionado com a variável resposta **`ALVO`** (binária).
-**Reprodução:** `eda_dados/eda.py` (Python, Anaconda). Figuras em `eda_dados/figuras/`, tabelas completas em `descritivas.csv`, `corr_pearson.csv`, `corr_spearman.csv` e `resultados.json`.
+
 
 ---
 
@@ -53,7 +53,7 @@
 
 ## 2. Variável resposta e vazamento
 
-![ALVO e Y](figuras/alvo_e_Y.png)
+![ALVO e Y](images/alvo_e_Y.png)
 
 | ALVO | n | % | Y mín | Y máx | Y médio |
 |---|---|---|---|---|---|
@@ -95,7 +95,7 @@ As classes não se sobrepõem em `Y`, então `ALVO` é uma dicotomização de `Y
 | log_pib | 19,79 | 1,41 | 17,05 | 18,74 | 19,56 | 20,57 | 27,70 | 0,95 |
 | log_area_km2 | 6,21 | 1,27 | 1,52 | 5,33 | 6,04 | 6,94 | 11,98 | 0,70 |
 
-![Histogramas](figuras/histogramas.png)
+![Histogramas](images/histogramas.png)
 
 **O que se vê nos histogramas:**
 - `pop`, `pib` e `area_km2` têm caudas extremas (São Paulo, Rio etc.). Os `log_*` deixam as distribuições quase simétricas, então **prefira as versões log**.
@@ -118,9 +118,9 @@ As classes não se sobrepõem em `Y`, então `ALVO` é uma dicotomização de `Y
 
 Pearson mede relação **linear** e Spearman mede relação **monotônica**, por postos. Spearman é mais robusto às caudas de `pop` e `pib`.
 
-![Correlação de Spearman](figuras/corr_spearman.png)
+![Correlação de Spearman](images/corr_spearman.png)
 
-![Correlação de Pearson](figuras/corr_pearson.png)
+![Correlação de Pearson](images/corr_pearson.png)
 
 ### Correlação com `ALVO`
 
@@ -176,7 +176,7 @@ Num modelo linear ou logístico, **mantenha só uma variável de cada bloco**, o
 
 ### Poder discriminante univariado (AUC) e teste de Mann-Whitney
 
-![AUC univariada](figuras/auc_univariada.png)
+![AUC univariada](images/auc_univariada.png)
 
 | Variável | mediana ALVO=0 | mediana ALVO=1 | AUC | p (Mann-Whitney) |
 |---|---|---|---|---|
@@ -195,13 +195,13 @@ Num modelo linear ou logístico, **mantenha só uma variável de cada bloco**, o
 
 (−) = relação inversa: valores maiores favorecem `ALVO = 0`.
 
-![Densidades por classe](figuras/densidades_por_alvo.png)
+![Densidades por classe](images/densidades_por_alvo.png)
 
-![Boxplots por classe](figuras/boxplots_por_alvo.png)
+![Boxplots por classe](images/boxplots_por_alvo.png)
 
 ### Relações bivariadas
 
-![Dispersões](figuras/dispersoes.png)
+![Dispersões](images/dispersoes.png)
 
 - **Esquerda:** `media_portugues_2023` contra `Y` (ρ = 0,71 de Pearson). As linhas tracejadas marcam 743 nos dois eixos. Os quadrantes fora da diagonal são os municípios que "mudaram de lado" entre 2023 e 2024.
 - **Centro:** `taxa_alfabetizacao_2023` e `media_portugues_2023` estão quase sobrepostas (ρ = 0,96).
@@ -211,7 +211,7 @@ Num modelo linear ou logístico, **mantenha só uma variável de cada bloco**, o
 
 ## 6. Variáveis categóricas e discretas
 
-![ALVO por região e UF](figuras/alvo_regiao_uf.png)
+![ALVO por região e UF](images/alvo_regiao_uf.png)
 
 | Variável | χ² | gl | p | V de Cramér |
 |---|---|---|---|---|
@@ -224,7 +224,7 @@ Num modelo linear ou logístico, **mantenha só uma variável de cada bloco**, o
 
 **Por UF**, os extremos ficam **dentro do Nordeste**: **CE 100%** (184/184), PE 75%, PI 72%, enquanto **BA 6,4%**, SE 8,0% e RN 21%. Portanto a **UF captura muito mais que a região**. Isso provavelmente reflete políticas estaduais de alfabetização, como o PAIC no Ceará, e possíveis diferenças na aplicação ou calibração das avaliações estaduais. UFs pequenas têm estimativas instáveis: AP n = 16, AC n = 22.
 
-![ALVO por nível e população](figuras/alvo_nivel_pop.png)
+![ALVO por nível e população](images/alvo_nivel_pop.png)
 
 - **`nivel_2023`:** o % de ALVO = 1 sobe de forma monotônica a partir do nível 3: 14% → 56% → 88% → 94% → 96% → 100%. Os níveis 1–2 (n = 53) têm poucas observações. O salto entre os níveis 4 e 5 coincide com a vizinhança do corte de 743/750.
 - **População:** municípios menores atingem o alvo com mais frequência, de 76% no decil 1 a 55% no decil 10, em queda quase monotônica.
